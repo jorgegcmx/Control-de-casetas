@@ -20,14 +20,15 @@ class Classe
     }
 
 
-   public function get_Granja($id = null)
+   public function get_Granja($id)
     {
         try
         {
-    $sql = "SELECT Granja,Nombre FROM nuICCapdeCas GROUP BY Granja,Nombre order by Granja DESC ";
-        
+            $sql=""; 
         if($id != null){
-        $sql .= " WHERE Granja=?";            
+            $sql = " SELECT Granja,Nombre FROM nuICCapdeCas WHERE Granja=? GROUP BY Granja,Nombre order by Granja DESC";            
+        }else{
+            $sql = "SELECT Granja,Nombre FROM nuICCapdeCas GROUP BY Granja,Nombre order by Granja DESC";
         }        
         $consulta = $this->con->prepare($sql);        
         if($id != null){

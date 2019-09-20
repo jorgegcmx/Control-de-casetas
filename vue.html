@@ -1,0 +1,209 @@
+<?php
+include_once 'header.php';
+include_once '../Colegiaturas_Programadas/Classe.php';
+$usu1 = new Classe();
+$usu2 = new Classe();
+
+?>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a href="#" class="btn btn-lg btn-default"><span class="glyphicon glyphicon-credit-card"></span> Pagos
+                    Fijo </a>
+
+
+            </div>
+            </li>
+            <div class="panel-body">
+                <div class="sparkline13-list">
+                    <div class="sparkline13-hd">
+                        <div class="main-sparkline13-hd">
+                            <form class="form-inline" method="POST" action="view_colegiaturas_programadas">
+                                <div class="form-group mx-sm-3 mb-2">
+                                    <input type="text" class="form-control" required name="matricula"
+                                        placeholder="matricula" autofocus>
+                                </div>
+                                <button type="submit" class="btn btn-primary mb-2"><span
+                                        class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
+                    <br>
+                    <div>
+                        <?php 
+                        if(isset($_POST['matricula'])){
+                             $matricula=$_POST['matricula'];
+                             $dat = $usu2->get_alumnos_foto($matricula,$ID);
+                              while($fil = $dat->fetchObject()){
+                                   echo "<img width='150' height='150' src='../Alumnos/".$fil->foto."' class='rounded float-right' alt='...'>";
+                                   echo"<h4>Matricula: <b>". $fil->matricula."</b></h4>";
+                              }
+                        }
+                      
+                       ?>
+                    </div>
+                    <div class="sparkline13-graph">
+                        <div class="datatable-dashv1-list custom-datatable-overright">
+                            <div id="toolbar">
+                                <select class="form-control dt-tb">
+                                    <option value="">Export Basic</option>
+                                    <option value="all">Export All</option>
+                                    <option value="selected">Export Selected</option>
+                                </select>
+                            </div>
+
+                            <table id="table" data-toggle="table" data-pagination="true" data-search="true"
+                                data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true"
+                                data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true"
+                                data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true"
+                                data-toolbar="#toolbar">
+                                <thead>
+                                    <tr>
+                                        <th data-field="state" data-checkbox="true"></th>
+                                        <th>Concepto de pago</th>
+                                        <th>Dias antes de vencimiento</th>
+                                        <th>Fecha de vencimiento</th>
+                                        <th>Importe sin moratorio</th>
+                                        <th>Importe a pagar</th>
+                                        <th>Moratorio</th>
+                                        <th>Acción para procesar Pago</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                             if(isset($_POST['matricula'])){
+                                               $matricula=$_POST['matricula'];
+                                               $datos = $usu1->get_pagos_alumnos($matricula,$ID);
+                                              while($fila = $datos->fetchObject()){
+                                            
+                                               	 $valida=0;
+                                               	 $fechapago=0;
+                                               	 $importepagado=0;
+                                               	 $fechaderegistro=0;
+                                               	 $pagos_pay = new Classe();
+                                               	 $pagos = $pagos_pay ->get_pagos($fila->idconfig_pay,$fila->idalumnos);
+                                                 while($data_pay = $pagos->fetchObject()){
+                                                    $valida=$valida+1; 
+                                                    $fechapago=date("d-m-Y", strtotime( $data_pay->fechadepago));
+                                                    $importepagado=$data_pay->cantidad;
+                                                  }
+                                                  $valida;
+                                                
+                                     ?>
+                                    <tr>
+                                        <td></td>
+                                        <td><?php echo $fila->concepto_de_pago; ?></td>
+                                        <td>
+                                            <?php 
+                                                 if($valida==1) {
+                                                      echo "<button type='button' class='btn btn-block btn-xs btn-success '><b>Pago Realizado el: ".$fechapago." </b>
+                                                         </button>";  
+                                                 }else{
+                                                $date1 = new DateTime(date("Y-m-d"));
+                                                $date2 = new DateTime($fila->fecha_vencimiento);
+                                                $diff = $date1->diff($date2);
+                                                $diff->days;
+                                                $interval = $datetime1->diff($date2);
+                                                $dias= $interval->format('%r%a');
+                                               
+                                                if(($fila->alerta > $dias) && (0 <= $dias)) {
+                                                    echo "<button type='button' class='btn btn-block btn-xs btn-warning '><b>Pago proximo a Vencer! queda(n) ".$dias." dia(s) </b>
+                                                         </button>";
+                                                }elseif(0 > $dias){
+                                                    echo "<button type='button' class='btn btn-block btn-xs btn-danger '><b>Pago Vencido! </b>
+                                                         </button>";
+                                                }
+                                                if($fila->alerta <= $dias){
+                                                    echo "<button type='button' class='btn btn-block btn-xs btn-primary'><b>Pago Pendiente!  faltan ".$dias." dias</b>
+                                                         </button>";
+                                                }
+                                                }
+                                                ?>
+                                        </td>
+                                        <td>
+                                            <?php
+                                                echo date("d-m-Y", strtotime($fila->fecha_vencimiento)); 
+                                                ?>
+                                        </td>
+                                        <td>$
+                                            <?php
+                                                echo $pay= $fila->Importe; 
+                                                ?>
+                                        </td>
+                                        <td>
+                                            <?php
+                                               	 if($valida==1) {
+                                                      echo "<button type='button' class='btn btn-block btn-xs btn-success '><b>$".$importepagado." </b>
+                                                         </button>";  
+                                                 }else{
+                                               	$pay=0;
+                                               	if(0>$dias){
+                                                   echo "$".$pay= $fila->Importe+($fila->Importe*($fila->cargo_moratorio/100)) ; 
+                                                }else{
+                                                     echo "$".$pay= $fila->Importe;
+                                                }
+                                                 }
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $fila->cargo_moratorio; ?>%
+                                        </td>
+                                        <td>
+                                            <?php if($valida==1) { ?>
+
+                                            <?php 
+                                                 }else{
+                                             ?>
+                                            <form action="frm_pago.php" method="POST">
+                                                <div class="form-group mb-2">
+                                                    <label><small>No Aplica cargo Moratorio</small></label>
+                                                    <input type="checkbox" name="valida_moratorio" value="1"
+                                                        class="form-control-plaintext">                                                        
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                        <label><small>Aplicar Beca</small></label>
+                                                        <input type="number" name="beca" value=" <?php echo $fila->concepto_de_pago; ?>"
+                                                            class="form-control-plaintext">                                                        
+                                                    </div>
+                                               
+                                                <input type="hidden" name="id" value="<?php echo $fila->idalumnos; ?>">
+                                                <input type="hidden" name="concep"
+                                                    value="<?php echo $fila->concepto_de_pago; ?>">
+                                                <input type="hidden" name="pay" value="<?php echo $pay; ?>">
+                                                <input type="hidden" name="pay_nomoratorio"
+                                                    value=" <?php echo $pay= $fila->Importe; ?>">
+                                                <input type="hidden" name="date"
+                                                    value="<?php echo $fila->fecha_vencimiento; ?>">
+                                                <input type="hidden" name="pay_id"
+                                                    value="<?php echo $fila->idconfig_pay; ?>">
+                                                <button type="submit" class="btn btn-primary">
+                                                    <span class="glyphicon glyphicon-usd">
+                                                    </span> pagar
+                                                </button>
+                                            </form>
+
+                                            <?php 
+                                                 }
+                                                ?>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                        }
+                                      }
+                                     ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/.row-->
+            <script src="../lib/external/jquery/jquery.js"></script>
+            <script src="../lib/jquery-ui.js"></script>
+
+            <?php
+include_once 'footer.php';
+?>

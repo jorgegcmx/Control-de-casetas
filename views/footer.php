@@ -10,8 +10,8 @@
                 template://html
                     `
                 <div>   
-                   <button type="button" v-on:click="getCasetas" class="btn btn-block bg-gradient-primary btn-xs">+ Costo Diario</button>
-                   <button type="button" v-on:click="cleard"  class="btn btn-block bg-gradient-danger btn-xs">-</button>          
+                   <button type="button" v-on:click="getCasetas" class="btn btn-primary btn-xs">+ Costo Diario</button>
+                   <button type="button" v-on:click="cleard"  class="btn btn-warning btn-xs">-</button>          
                   
                    <div v-for="(itemm,key,index) in casetas" :key="key" >
                    
@@ -82,44 +82,34 @@
                 template://html
                     `
                 <div>  
-                   <button type="button" v-on:click="getCartones" class="btn btn-block bg-gradient-primary btn-xs">+ Info carton</button>
-                   <button type="button" v-on:click="cleardCartones"  class="btn btn-block bg-gradient-danger btn-xs">-</button>       
-                                                      
-                       <table class="table">
-                       <thead>
-                       <tr>
-                       <th><small>Dias</small></th>
-                       <th><small>LotesSalida</small></th>
-                       <th><small>Pantalla</small></th>
-                       <th><small>Modulo</small></th>
-                       <th><small>Importe</small></th>
-                       <th><small>Status</small></th>
-                       <th></th>
-                       <th><small>LoteAjuste</small> </th>
-                       <th><small>Pantalla</small></th>
-                       <th><small>Modulo</small></th>
-                       <th><small>Importe</small></th>
-                       <th><small>Status</small></th>
-                       </tr>
-                       </thead>                      
-                       <tbody>                      
-                        <tr v-for="(carton,key,index) in cartones" :key="key" >                      
-                        <td><small>{{carton.Edad}}</small></td>
-                        <td><small>{{carton.LoteConsAlimGas}}</small></td>               
-                        <td><small>{{carton.PanSalida}}</small></td>
-                        <td><small>{{carton.ModSalida}}</small></td>
-                        <td><small>{{carton.Totalsalida}}</small></td>
-                        <td><small>{{carton.StatusSalida}}</small></td>
-                        <td><lotesalida ></lotesalida></td>
-                        <td><small>{{carton.LoteAjusteMerma}}</small></td>
-                        <td><small>{{carton.PantAjuste}}</small></td>
-                        <td><small>{{carton.ModAjuste}}</small></td>
-                        <td><small>{{carton.TotalAjuste}}</small></td>
-                        <td><small>{{carton.StatusAjuste}}</small></td>
-                                      
-                        </tr>                       
-                       </tbody>                      
-                       </table>               
+                
+                <div class="btn-group"> 
+                <button type="button" v-on:click="getCartones" class="btn btn-primary btn-xs">+ Info carton</button>
+                <button type="button" v-on:click="cleardCartones"  class="btn btn-warning btn-xs">-</button>
+                </div>
+                <table class="table">                    
+                                            
+                  <tbody v-for="(carton,key,index) in cartones" :key="key">                  
+                        <tr>                                                                               
+                        <td><small>dia </small><br><small>{{carton.Edad}}</small></td>
+                        <td><small>lote Salida </small><br><small>{{carton.LoteConsAlimGas}}</small></td>               
+                        <td><small>pantalla </small><br><small>{{carton.PanSalida}}</small></td>                        
+                        <td><small>monto </small><br><small>{{carton.ModSalida}}</small></td>
+                        <td><small>total </small><br><small>{{carton.Totalsalida}}</small></td>
+                        <td><small>status </small><br><small>{{carton.StatusSalida}}</small></td> 
+                        <td><small>lote Ajus </small><br><small>{{carton.LoteAjusteMerma}}</small></td>
+                        <td><small>Pantalla </small><br><small>{{carton.PantAjuste}}</small></td>
+                        <td><small>monto </small><br><small>{{carton.ModAjuste}}</small></td>
+                        <td><small>total </small><br><small>{{carton.TotalAjuste}}</small></td>
+                        <td><small>status </small><br><small>{{carton.StatusAjuste}}</small></td>    
+                        <tr>
+                        <td colspan="6">
+                        <loteSalida :lote="carton.LoteConsAlimGas"  ></loteSalida>     
+                        </td>                       
+                        </tr>                           
+                       
+                </table>     
+                </tbody>        
                                      
                 </div>            
                 `,
@@ -150,41 +140,68 @@
                 }
             })
 
-            Vue.component('lotesalida', {
+            Vue.component('loteSalida', {
                 template://html
-                    `
-                <div>               
-                <button class="btn btn-block bg-gradient-primary btn-xs">+</button>
-               
+                 `
+                <div>
+                <div class="btn-group">                       
+                <button type="button" class="btn btn-primary btn-xs" v-on:click="getloteSalida">+</button> 
+                <button type="button" class="btn btn-warning btn-xs" v-on:click="cleardloteSalida">-</button>
+                </div> 
+                
+                <table class="table" > 
+                <tr>
+               <td colspan="16"><small> Detalle de Lote de Salida </small></td>
+                </tr>                              
+                <tr v-for="(intran,key,index) in lotes"  style="background-color:lightyellow">                
+                <td><small>{{intran.Crtd_User}}</small></td>
+                <td><small>{{intran.ProjectID}}</small></td>
+                <td><small>{{intran.InvtID}}</small></td>
+                <td><small>{{intran.Qty}}</small></td>
+                <td><small>{{intran.UnitPrice}}</small></td>
+                <td><small>{{intran.TranAmt}}</small></td>
+                <td><small>{{intran.TranDesc}}</small></td>
+                <td><small>{{intran.TranType}}</small></td>
+                <td><small>{{intran.WhseLoc}}</small></td>            
+                <td><small>{{intran.COGSSub}}</small></td>
+                <td><small>{{intran.InvtSub}}</small></td>
+                <td><small>{{intran.InvtAcct}}</small></td>
+                <td><small>{{intran.ExtCost}}</small></td>
+                <td><small>{{intran.ReasonCd}}</small></td>
+                <td><small>{{intran.SiteID}}</small></td>
+                <td><small>{{intran.Sub}}</small></td>
+                </tr>                
+                </table>
+                                     
                 </div>            
                 `,
-                props: ['lote']               
+                props: ['lote']                          
                 ,
                  mounted() {                  
                 },
                 data() {
                     return {
-                        lote: []
+                        lotes: []
                     }
                 },
                 methods: {
                     getloteSalida: function () {
-                        axios.get("http://localhost:8000/Lote/"+ this.lote).then(response => {
-                            this.lote = response.data;                                          
+                        axios.get("http://localhost:8000/DetalleSalida/"+ this.lote).then(response => {
+                            this.lotes = response.data;                                          
                         }).catch(function (error) {
                             console.log(error);
                         });
                     },
                     cleardloteSalida: function () {
-                        axios.get(`http://localhost:8000/lote/0/`).then(response => {
-                          this.lote = response.data;                           
+                        axios.get(`http://localhost:8000/DetalleSalida/0/`).then(response => {
+                          this.lotes = response.data;                           
                         }).catch(function (error) {
                             console.log(error);
                         });
                     }
                 }
             })
-
+           
 
       new Vue({
         el: "#main"     
