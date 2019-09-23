@@ -144,6 +144,55 @@ public function get_Cartones_default($caseta,$annio,$status)
 }
 
 
+
+public function get_transferencia_pollito($proyecto)
+  {
+      try
+      {
+      $sql = "select Loteid,LotSalInc,
+      LoteEntGran,LotAjxMermaEnt,
+      LoteSalpvIni,TotalCantSal,
+      TotalCantEnt,TotMermaEnt,
+      Status 
+      from NuPeTranPol1DHdr  
+      where Proyecto=? and Status in ('TG','PA','PS')";     
+
+      $consulta = $this->con->prepare($sql);      
+      $consulta->bindParam(1,$proyecto);        
+      $consulta->execute();
+      $this->con = null;        
+      if($consulta->rowCount() > 0){
+          return $consulta;   
+      }else{
+          return $consulta;
+      }//fin else
+      }catch(PDOExeption $e){
+          print "Error:" . $e->getmessage();
+      }
+}
+
+public function get_merma($loteID)
+  {
+      try
+      {
+      $sql = "select SUM(Merma)as merma from NuPeTranPol1DEnt where Loteid=?";     
+
+      $consulta = $this->con->prepare($sql);      
+      $consulta->bindParam(1,$loteID);        
+      $consulta->execute();
+      $this->con = null;        
+      if($consulta->rowCount() > 0){
+          return $consulta;   
+      }else{
+          return $consulta;
+      }//fin else
+      }catch(PDOExeption $e){
+          print "Error:" . $e->getmessage();
+      }
+}
+
+
+
 public function get_Cartones_detalle($caseta,$annio,$ciclo)
   {
       try
@@ -165,6 +214,7 @@ public function get_Cartones_detalle($caseta,$annio,$ciclo)
           print "Error:" . $e->getmessage();
       }
 }
+
 
 
 

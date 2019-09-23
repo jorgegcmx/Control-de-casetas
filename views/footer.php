@@ -107,9 +107,9 @@
                         <loteSalida :lote="carton.LoteConsAlimGas"  ></loteSalida>     
                         </td>                       
                         </tr>                           
-                       
+                </tbody>       
                 </table>     
-                </tbody>        
+                     
                                      
                 </div>            
                 `,
@@ -202,6 +202,148 @@
                 }
             })
            
+            Vue.component('lotestranferencia', {
+                template://html
+                 `
+                <div>
+                <div class="btn-group">                       
+                <button type="button" class="btn btn-primary btn-xs" v-on:click="getlotetrans">+</button> 
+                <button type="button" class="btn btn-warning btn-xs" v-on:click="cleardlotetrans">-</button>
+                </div> 
+                
+                <table class="table" >                                              
+                <tr v-for="(intrantrans,key,index) in lotetrasarr" >         
+                              
+                <td><small>Cant: {{intrantrans.Cantidad}}</small></td>
+                <td><small> Suntotal: {{intrantrans.Subtotal}}</small></td> 
+                <td><small>Proyect: {{intrantrans.ProjectID}}</small></td>               
+                </tr>                
+                </table>
+                                     
+                </div>            
+                `,
+                props: ['lotetras']                          
+                ,
+                 mounted() {                  
+                },
+                data() {
+                    return {
+                        lotetrasarr: []
+                    }
+                },
+                methods: {
+                    getlotetrans: function () {
+                        axios.get("http://localhost:8000/transferencia/"+ this.lotetras+"/II").then(response => {
+                            this.lotetrasarr = response.data;    
+                            console.log(this.lotetrasarr)                                      
+                        }).catch(function (error) {
+                            console.log(error);
+                        });
+                    },
+                    cleardlotetrans: function () {
+                        axios.get(`http://localhost:8000/transferencia/0/0`).then(response => {
+                          this.lotetrasarr = response.data;                           
+                        }).catch(function (error) {
+                            console.log(error);
+                        });
+                    }
+                }
+            })
+
+            Vue.component('lotestranferencia_entrada', {
+                template://html
+                 `
+                <div>
+                <div class="btn-group">                       
+                <button type="button" class="btn btn-primary btn-xs" v-on:click="getlotetrans">+</button> 
+                <button type="button" class="btn btn-warning btn-xs" v-on:click="cleardlotetrans">-</button>
+                </div> 
+                
+                <table class="table" >                                              
+                <tr v-for="(intrantrans,key,index) in lotetrasarr" >         
+                              
+                <td><small>Cant: {{intrantrans.Cantidad}}</small></td>
+                <td><small> Suntotal: {{intrantrans.Subtotal}}</small></td> 
+                <td><small>Proyect: {{intrantrans.ProjectID}}</small></td>               
+                </tr>                
+                </table>
+                                     
+                </div>            
+                `,
+                props: ['lotetras']                          
+                ,
+                 mounted() {                  
+                },
+                data() {
+                    return {
+                        lotetrasarr: []
+                    }
+                },
+                methods: {
+                    getlotetrans: function () {
+                        axios.get("http://localhost:8000/transferencia/"+ this.lotetras+"/RI").then(response => {
+                            this.lotetrasarr = response.data;    
+                            console.log(this.lotetrasarr)                                      
+                        }).catch(function (error) {
+                            console.log(error);
+                        });
+                    },
+                    cleardlotetrans: function () {
+                        axios.get(`http://localhost:8000/transferencia/0/0`).then(response => {
+                          this.lotetrasarr = response.data;                           
+                        }).catch(function (error) {
+                            console.log(error);
+                        });
+                    }
+                }
+            })
+            Vue.component('lotestranferencia_merma', {
+                template://html
+                 `
+                <div>
+                <div class="btn-group">                       
+                <button type="button" class="btn btn-primary btn-xs" v-on:click="getlotetrans">+</button> 
+                <button type="button" class="btn btn-warning btn-xs" v-on:click="cleardlotetrans">-</button>
+                </div> 
+                
+                <table class="table" >                                              
+                <tr v-for="(intrantrans,key,index) in lotetrasarr" >         
+                              
+                <td><small>Cant: {{intrantrans.Cantidad}}</small></td>
+                <td><small> Suntotal: {{intrantrans.Subtotal}}</small></td> 
+                <td><small>Proyect: {{intrantrans.ProjectID}}</small></td>               
+                </tr>                
+                </table>
+                                     
+                </div>            
+                `,
+                props: ['lotetras']                          
+                ,
+                 mounted() {                  
+                },
+                data() {
+                    return {
+                        lotetrasarr: []
+                    }
+                },
+                methods: {
+                    getlotetrans: function () {
+                        axios.get("http://localhost:8000/transferencia/"+ this.lotetras+"/AJ").then(response => {
+                            this.lotetrasarr = response.data;    
+                            console.log(this.lotetrasarr)                                      
+                        }).catch(function (error) {
+                            console.log(error);
+                        });
+                    },
+                    cleardlotetrans: function () {
+                        axios.get(`http://localhost:8000/transferencia/0/0`).then(response => {
+                          this.lotetrasarr = response.data;                           
+                        }).catch(function (error) {
+                            console.log(error);
+                        });
+                    }
+                }
+            })
 
       new Vue({
         el: "#main"     

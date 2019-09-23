@@ -186,10 +186,7 @@ include_once '../Proyectos/Classe.php';
                                                                                <table class="table table-striped" border="1">
                                                                                  <tr>                                                  
                                                                                    <th><small>Casetas</small></th>                 
-                                                                                   <th><small>Año</small></th>                                                                         
-                                                                                   <th><small>Ciclo</small></th>
-                                                                                   <th><small>CantPollos Ingr</small></th>                                                     
-                                                                                   <th><small>LoteTrns</small></th>                                                                                   
+                                                                                   <th colspan='4'><small>Datos de Transferencia</small></th>                                                                          
                                                                                    <th><small>Almacen-Gas</small></th>                                                                                                    
                                                                                  </tr>
                                                                                   <?php
@@ -216,21 +213,23 @@ include_once '../Proyectos/Classe.php';
                                                                                    <td>
                                                                                        <small> 
                                                                                         <?php echo $car->NumIDCaseta; ?>                              
-                                                                                       </small>
-                                                                                   </td>
-                                                                                   <td>
-                                                                                       <small> 
-                                                                                        <?php echo $car->Ano; ?>                            
-                                                                                       </small>
-                                                                                   </td>                                                       
-                                                                                   <td>
-                                                                                       <small> 
+                                                                                       </small><br>
+                                                                                       <small> Ciclo: 
                                                                                         <?php echo $car->Ciclo; ?>                              
-                                                                                       </small><br>                                                                                       
-                                                                                       <?php
-                                                                                       
-
-                                                                                      
+                                                                                       </small><br> 
+                                                                                       <small>Año:  
+                                                                                        <?php echo $car->Ano; ?>                            
+                                                                                       </small> <br> 
+                                                                                       <small> Cant Pollos: <b>
+                                                                                        <?php echo $car->CantPolloIngreso; ?>  
+                                                                                        </b>                         
+                                                                                       </small><br>
+                                                                                       <small>
+                                                                                         Mortalidad: <b>
+                                                                                        <?php echo $car->MortalidadLlegada; ?>  
+                                                                                        </b>                             
+                                                                                       </small>   <br>                                                                                 
+                                                                                       <?php                                                                            
                                                                                        if( trim($car->Status)=='EP'){
                                                                                           echo"  <span class='badge bg-success'>En Producción</span>";                                                                                          
                                                                                        }elseif( trim($car->Status)=='AB'){
@@ -244,22 +243,94 @@ include_once '../Proyectos/Classe.php';
                                                                                        }  
                                                                                                                                                                            
                                                                                        ?>
-                                                                                   </td> 
-                                                                                   <td>
-                                                                                       <small> 
-                                                                                        <?php echo $car->CantPolloIngreso; ?>                           
-                                                                                       </small><br>
-                                                                                       <small>
-                                                                                         Mortalidad <br> 
-                                                                                        <?php echo $car->MortalidadLlegada; ?>                              
-                                                                                       </small>
-                                                                                   </td>                                                                                  
-                                                                                
-                                                                                   <td>
-                                                                                       <small> 
+                                                                                 
+                                                                                    
+                                                                                       <td colspan='4'>
+                                                                                       <small>Lote tranf En Carton: 
                                                                                         <?php echo $car->LoteTRPollito; ?>                              
                                                                                        </small><br>
-                                                                                       <small> 
+                                                                                     
+<table>
+  <tr>
+    <td> <small>Lote Trans</small> </td>
+    <td> <small>Cantidad Sal</small> </td> 
+    <td> <small>Cantidad Entra</small> </td> 
+    <td> <small>Merma</small> </td>   
+    <td> <small>Lote Sal-Icb</small> </td>  
+    <td> <small>lote Entra Granj</small> </td> 
+    <td> <small>Lote Ajut merma</small> </td>  
+    <td> <small>LoteSalpvIni</small> </td> 
+    <td> <small>Status</small> </td>  
+  </tr>
+  <?php
+   $suma_lotes_Sal=0;
+   $suma_lotes_transferencia=0;
+   $suma_lotes_merma=0;
+   $trasferencia = new Classe();
+   $trans = $trasferencia->get_transferencia_pollito($car->ProyectoVigente);
+   while($tran = $trans->fetchObject()){
+   $suma_lotes_transferencia= $suma_lotes_transferencia+$tran->TotalCantEnt;
+   $suma_lotes_merma=$suma_lotes_merma+$tran->TotMermaEnt;
+   $suma_lotes_Sal=$suma_lotes_Sal+$tran->TotalCantSal;
+  ?>
+  <tr>
+    <td><small><?php echo  $tran->Loteid; ?> </small> </td>
+    <td><small><?php echo  $tran->TotalCantSal; ?></small> </td>
+    <td><small><?php echo  $tran->TotalCantEnt; ?></small> </td>
+    <td><small>
+    <?php 
+     $trasferencia_merma = new Classe();
+     $transmerma = $trasferencia_merma->get_merma($tran->Loteid);
+     while($tranmerma = $transmerma->fetchObject()){
+              echo $tranmerma->merma;
+     }
+    
+    ?> 
+    </small> </td>
+    <td><small><?php echo  $tran->LotSalInc;  ?> </small> 
+
+    <lotestranferencia lotetras="<?php echo trim($tran->LotSalInc); ?>" ></lotestranferencia>
+
+    </td>
+    <td><small><?php echo  $tran->LoteEntGran; ?> </small> 
+     <lotestranferencia_entrada lotetras="<?php echo trim($tran->LoteEntGran); ?>" ></lotestranferencia_entrada>
+    </td>
+    <td><small><?php echo  $tran->LotAjxMermaEnt; ?> </small> 
+  
+    <lotestranferencia_merma lotetras="<?php echo trim($tran->LotAjxMermaEnt); ?>" ></lotestranferencia_merma>
+   </td>
+
+    <td><small><?php echo  $tran->LoteSalpvIni; ?> </small> 
+    <lotestranferencia lotetras="<?php echo trim($tran->LoteSalpvIni); ?>" ></lotestranferencia>
+   </td>
+    <td><small>
+    <?php if(trim($tran->Status)=='TG'){
+            echo"<span class='badge bg-warning'>En transito</span>";
+    }elseif(trim($tran->Status)=='AP'){
+           echo"<span class='badge bg-success'>Aplicado</span>";
+    }else{
+      echo"<span class='badge bg-info'>Pasivo</span>";
+    }    
+    ?>    
+  </small> </td>
+  </tr>
+   <?php } ?>  
+   <tr>
+    <td><small>Totales:  </small> </td>
+    <td><small><b><?php echo  $suma_lotes_Sal ?> </b> </small> </td>
+    <td><small><b><?php echo  $suma_lotes_transferencia ?> </b></small> </td>
+    <td><small><b><?php echo  $suma_lotes_merma; ?></b> </small> </td>
+    <td><small> </small> </td>
+    <td><small></small> </td>  
+    <td><small></small> </td>
+    <td><small></small> </td>  
+    <td><small></small> </td>   
+   </tr>
+</table>
+
+                                                                                   </td>                                                                       
+                                                                                   <td>
+                                                                                     <small> 
                                                                                          Almacen Caseta <br>
                                                                                         <?php echo $car->AlmacenCASETA; ?>                              
                                                                                        </small>
@@ -270,8 +341,7 @@ include_once '../Proyectos/Classe.php';
                                                                                          echo"  <span class='badge bg-danger'>Error</span>";
                                                                                        }                                                                                        
                                                                                        ?>
-                                                                                   </td>                                                                       
-                                                                                   <td>
+                                                                                       <br>
                                                                                         <small> 
                                                                                         <?php echo $car->AlmacenGAS; ?>                              
                                                                                        </small>
