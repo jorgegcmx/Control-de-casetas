@@ -26,9 +26,12 @@ class Classe
         {
             $sql=""; 
         if($id != null){
-            $sql = " SELECT Granja,Nombre FROM nuICCapdeCas WHERE Granja=? GROUP BY Granja,Nombre order by Granja DESC";            
+            $sql = " SELECT Granja,Nombre FROM nuICCapdeCas 
+            WHERE Granja=?
+            GROUP BY Granja,Nombre  order by Granja DESC";            
         }else{
-            $sql = "SELECT Granja,Nombre FROM nuICCapdeCas GROUP BY Granja,Nombre order by Granja DESC";
+            $sql = "SELECT Granja,Nombre FROM nuICCapdeCas 
+            GROUP BY Granja,Nombre  order by Granja DESC";
         }        
         $consulta = $this->con->prepare($sql);        
         if($id != null){
@@ -71,8 +74,8 @@ public function get_Casetas($Granja,$Modulo)
   {
       try
       {
-      $sql = "SELECT Granja,Modulo,NumIDCaseta,AlmacenCas,Proyecto,AlmacenGAS,LlaveAccCarton,CodigoRazon 
-              FROM nuiccapdecas  WHERE Granja=? AND Modulo=?
+      $sql = "SELECT Granja,Modulo,NumIDCaseta,AlmacenCas,Proyecto,AlmacenGAS,LlaveAccCarton,CodigoRazon,S.User5 
+              FROM nuiccapdecas inner join Site S on S.SiteId=AlmacenCas WHERE Granja=? AND Modulo=? AND Proyecto<>'PE000000CG00'
               ORDER BY Granja DESC";
              
       $consulta = $this->con->prepare($sql);      
@@ -90,6 +93,7 @@ public function get_Casetas($Granja,$Modulo)
       }
 }
 
+            
 
 public function get_Cartones($caseta,$annio,$ciclo,$status)
   {

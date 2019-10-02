@@ -62,7 +62,7 @@ include_once '../Proyectos/Classe.php';
                  <td>
                     <small> 
                       <!--?php echo $fila->Granja; ?><br-->
-                     <h4><?php echo $fila->Granja."". $fila->Nombre; ?></h4>                    
+                     <h4><?php echo $fila->Granja."". $fila->Nombre; ?></h4>                                         
                     </small>
                             <!--INICIAMOS LOS MODULOS DE CADA GRANJA-->
                                <table class="table table-bordered" border="1" >                                 
@@ -81,7 +81,7 @@ include_once '../Proyectos/Classe.php';
                                    </td>
                                    <td>
                                              <!--INICIAMOS LAS CASETAS DE CADA GRANJA Y MODULO-->
-                                                   <table class="table table-bordered" >                                                 
+                                                   <table class="table table-bordered" >                             
                                                      
                                                  
                                                       <?php
@@ -120,6 +120,13 @@ include_once '../Proyectos/Classe.php';
                                                        <td>
                                                            <small> 
                                                             <?php echo $c->AlmacenCas; ?>                          
+                                                           </small><br>
+                                                           <small> 
+                                                            <?php 
+                                                            echo $c->User5;
+                                                            if($c->User5=='')
+                                                            echo"  <span class='badge bg-danger'>Error</span>";
+                                                            ?>                          
                                                            </small>
                                                        </td>                                                       
                                                        <td>
@@ -185,12 +192,13 @@ include_once '../Proyectos/Classe.php';
                                                                    <!--INICIAMOS DATOS DE CARTON-->
                                                                                <table class="table table-striped" border="1">
                                                                                  <tr>                                                  
-                                                                                   <th><small>Casetas</small></th>                 
+                                                                                   <th><small>Casetas</small></th>  
+                                                                                   <th><small>Almacen-Gas</small></th>                
                                                                                    <th colspan='4'><small>Datos de Transferencia</small></th>                                                                          
-                                                                                   <th><small>Almacen-Gas</small></th>                                                                                                    
+                                                                                                                                                                                      
                                                                                  </tr>
                                                                                   <?php
-                                                                                                                                                                    
+                                                                                  $morta=0;                                                                                 
                                                                                   $carton = new Classe();
                                                                                 
                                                                                   if(isset($_GET['annio']) && isset($_GET['ciclo']) && isset($_GET['status'])){
@@ -226,7 +234,8 @@ include_once '../Proyectos/Classe.php';
                                                                                        </small><br>
                                                                                        <small>
                                                                                          Mortalidad: <b>
-                                                                                        <?php echo $car->MortalidadLlegada; ?>  
+                                                                                        <?php echo round($car->MortalidadLlegada);
+                                                                                         $morta=round($car->MortalidadLlegada) ; ?>  
                                                                                         </b>                             
                                                                                        </small>   <br>                                                                                 
                                                                                        <?php                                                                            
@@ -244,92 +253,8 @@ include_once '../Proyectos/Classe.php';
                                                                                                                                                                            
                                                                                        ?>
                                                                                  
-                                                                                    
-                                                                                       <td colspan='4'>
-                                                                                       <small>Lote tranf En Carton: 
-                                                                                        <?php echo $car->LoteTRPollito; ?>                              
-                                                                                       </small><br>
-                                                                                     
-<table>
-  <tr>
-    <td> <small>Lote Trans</small> </td>
-    <td> <small>Cantidad Sal</small> </td> 
-    <td> <small>Cantidad Entra</small> </td> 
-    <td> <small>Merma</small> </td>   
-    <td> <small>Lote Sal-Icb</small> </td>  
-    <td> <small>lote Entra Granj</small> </td> 
-    <td> <small>Lote Ajut merma</small> </td>  
-    <td> <small>LoteSalpvIni</small> </td> 
-    <td> <small>Status</small> </td>  
-  </tr>
-  <?php
-   $suma_lotes_Sal=0;
-   $suma_lotes_transferencia=0;
-   $suma_lotes_merma=0;
-   $trasferencia = new Classe();
-   $trans = $trasferencia->get_transferencia_pollito($car->ProyectoVigente);
-   while($tran = $trans->fetchObject()){
-   $suma_lotes_transferencia= $suma_lotes_transferencia+$tran->TotalCantEnt;
-   $suma_lotes_merma=$suma_lotes_merma+$tran->TotMermaEnt;
-   $suma_lotes_Sal=$suma_lotes_Sal+$tran->TotalCantSal;
-  ?>
-  <tr>
-    <td><small><?php echo  $tran->Loteid; ?> </small> </td>
-    <td><small><?php echo  $tran->TotalCantSal; ?></small> </td>
-    <td><small><?php echo  $tran->TotalCantEnt; ?></small> </td>
-    <td><small>
-    <?php 
-     $trasferencia_merma = new Classe();
-     $transmerma = $trasferencia_merma->get_merma($tran->Loteid);
-     while($tranmerma = $transmerma->fetchObject()){
-              echo $tranmerma->merma;
-     }
-    
-    ?> 
-    </small> </td>
-    <td><small><?php echo  $tran->LotSalInc;  ?> </small> 
-
-    <lotestranferencia lotetras="<?php echo trim($tran->LotSalInc); ?>" ></lotestranferencia>
-
-    </td>
-    <td><small><?php echo  $tran->LoteEntGran; ?> </small> 
-     <lotestranferencia_entrada lotetras="<?php echo trim($tran->LoteEntGran); ?>" ></lotestranferencia_entrada>
-    </td>
-    <td><small><?php echo  $tran->LotAjxMermaEnt; ?> </small> 
-  
-    <lotestranferencia_merma lotetras="<?php echo trim($tran->LotAjxMermaEnt); ?>" ></lotestranferencia_merma>
-   </td>
-
-    <td><small><?php echo  $tran->LoteSalpvIni; ?> </small> 
-    <lotestranferencia lotetras="<?php echo trim($tran->LoteSalpvIni); ?>" ></lotestranferencia>
-   </td>
-    <td><small>
-    <?php if(trim($tran->Status)=='TG'){
-            echo"<span class='badge bg-warning'>En transito</span>";
-    }elseif(trim($tran->Status)=='AP'){
-           echo"<span class='badge bg-success'>Aplicado</span>";
-    }else{
-      echo"<span class='badge bg-info'>Pasivo</span>";
-    }    
-    ?>    
-  </small> </td>
-  </tr>
-   <?php } ?>  
-   <tr>
-    <td><small>Totales:  </small> </td>
-    <td><small><b><?php echo  $suma_lotes_Sal ?> </b> </small> </td>
-    <td><small><b><?php echo  $suma_lotes_transferencia ?> </b></small> </td>
-    <td><small><b><?php echo  $suma_lotes_merma; ?></b> </small> </td>
-    <td><small> </small> </td>
-    <td><small></small> </td>  
-    <td><small></small> </td>
-    <td><small></small> </td>  
-    <td><small></small> </td>   
-   </tr>
-</table>
-
-                                                                                   </td>                                                                       
-                                                                                   <td>
+                                                                                      </td>
+                                                                                      <td>
                                                                                      <small> 
                                                                                          Almacen Caseta <br>
                                                                                         <?php echo $car->AlmacenCASETA; ?>                              
@@ -380,6 +305,103 @@ include_once '../Proyectos/Classe.php';
                                                                                        ?> 
                  
                                                                                    </td>
+                                                                                       <td colspan='4'>
+
+
+                                                                                       <small>Lote tranf En Carton: 
+                                                                                        <?php echo $car->LoteTRPollito; ?>                              
+                                                                                       </small><br>
+                                                                                     
+<table>
+  <tr>
+    <td> <small>Lote Trans</small> </td>
+    <td> <small>Cantidad Sal</small> </td> 
+    <td> <small>Cantidad Entra</small> </td> 
+    <td> <small>Merma</small> </td>   
+    <td> <small>Lote Sal-Icb</small> </td>  
+    <td> <small>lote Entra Granj</small> </td> 
+    <td> <small>Lote Ajut merma</small> </td>  
+    <td> <small>LoteSalpvIni</small> </td> 
+    <td> <small>Status</small> </td>  
+  </tr>
+  <?php
+   $suma_lotes_Sal=0;
+   $suma_lotes_transferencia=0;
+   $suma_lotes_merma=0;
+   $trasferencia = new Classe();
+   $trans = $trasferencia->get_transferencia_pollito($car->ProyectoVigente);
+   while($tran = $trans->fetchObject()){
+   $suma_lotes_transferencia= $suma_lotes_transferencia+$tran->TotalCantEnt;
+   
+   $suma_lotes_Sal=$suma_lotes_Sal+$tran->TotalCantSal;
+  ?>
+  <tr>
+    <td><small><?php echo  $tran->Loteid; ?> </small> </td>
+    <td><small><?php echo  $tran->TotalCantSal; ?></small> </td>
+    <td><small><?php echo  $tran->TotalCantEnt; ?></small> </td>
+    <td><small>
+    <?php 
+     $trasferencia_merma = new Classe();
+     $transmerma = $trasferencia_merma->get_merma($tran->Loteid);
+     while($tranmerma = $transmerma->fetchObject()){
+              echo $tranmerma->merma;
+      $suma_lotes_merma=$suma_lotes_merma+$tranmerma->merma;
+     }
+    
+    ?> 
+    </small> </td>
+    <td><small><?php echo  $tran->LotSalInc;  ?> </small> 
+
+    <lotestranferencia lotetras="<?php echo trim($tran->LotSalInc); ?>" ></lotestranferencia>
+
+    </td>
+    <td><small><?php echo  $tran->LoteEntGran; ?> </small> 
+     <lotestranferencia_entrada lotetras="<?php echo trim($tran->LoteEntGran); ?>" ></lotestranferencia_entrada>
+    </td>
+    <td><small><?php echo  $tran->LotAjxMermaEnt; ?> </small> 
+  
+    <lotestranferencia_merma lotetras="<?php echo trim($tran->LotAjxMermaEnt); ?>" ></lotestranferencia_merma>
+   </td>
+
+    <td><small><?php echo  $tran->LoteSalpvIni; ?> </small> 
+    <lotestranferencia lotetras="<?php echo trim($tran->LoteSalpvIni); ?>" ></lotestranferencia>
+   </td>
+    <td><small>
+    <?php if(trim($tran->Status)=='TG'){
+            echo"<span class='badge bg-warning'>En transito</span>";
+    }elseif(trim($tran->Status)=='AP'){
+           echo"<span class='badge bg-success'>Aplicado</span>";
+    }else{
+      echo"<span class='badge bg-info'>Pasivo</span>";
+    }    
+    ?>    
+  </small> </td>
+  </tr>
+   <?php } ?>  
+   <tr>
+    <td><small>Totales:  </small> </td>
+    <td><small><b><?php echo  $suma_lotes_Sal ?> </b> </small> </td>
+    <td><small><b><?php echo  $suma_lotes_transferencia ?> </b></small> </td>
+    <td><small><b><?php echo  $suma_lotes_merma; ?></b> 
+    <br>
+    <?php 
+    if($morta==round($suma_lotes_merma)){
+     echo"  <span class='badge bg-primary'>Correcto</span>";
+    }else{
+      echo"  <span class='badge bg-danger'>Error</span>";
+    }
+    ?>
+    </small> </td>
+    <td><small></small> </td>
+    <td><small></small> </td>  
+    <td><small></small> </td>
+    <td><small></small> </td>  
+    <td><small></small> </td>   
+   </tr>
+</table>
+
+                                                                                   </td>                                                                       
+                                                                                   
                                                                                     
                                                                                      </tr>
                                                                                      <tr>

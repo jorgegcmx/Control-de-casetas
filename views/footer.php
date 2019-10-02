@@ -4,6 +4,7 @@
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/vuex@3.1.1/dist/vuex.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+  
     <script type="text/javascript">
      
         Vue.component('casetas', {
@@ -349,6 +350,8 @@
         el: "#main"     
       });     
   </script>
+
+
 </body>
 </html>
 
