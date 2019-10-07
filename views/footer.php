@@ -1,7 +1,7 @@
 </div>
 
 
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
   <script src="https://unpkg.com/vuex@3.1.1/dist/vuex.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
   
@@ -93,7 +93,8 @@
                   <tbody v-for="(carton,key,index) in cartones" :key="key">                  
                         <tr>                                                                               
                         <td><small>dia </small><br><small>{{carton.Edad}}</small></td>
-                        <td><small>lote Salida </small><br><small>{{carton.LoteConsAlimGas}}</small></td>               
+                        <td   v-if="carton.LoteConsAlimGas === ''"><small>X</small></td> 
+                        <td   v-else ><small>lote Salida </small><br><small>{{carton.LoteConsAlimGas}}</small></td>              
                         <td><small>pantalla </small><br><small>{{carton.PanSalida}}</small></td>                        
                         <td><small>monto </small><br><small>{{carton.ModSalida}}</small></td>
                         <td><small>total </small><br><small>{{carton.Totalsalida}}</small></td>
