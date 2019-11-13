@@ -350,20 +350,51 @@ include_once '../Proyectos/Classe.php';
     
     ?> 
     </small> </td>
-    <td><small><?php echo  $tran->LotSalInc;  ?> </small> 
+    <td><small>
+    <?php 
+    echo  $tran->LotSalInc; 
+    echo"<br>";
+    if(substr($tran->LotSalInc,0,3)==000){
+      echo"  <span class='badge bg-success'>Correcto</span>";
+    }else{
+      echo"  <span class='badge bg-danger'>error</span>";
+    }
+   
+    ?> 
+    </small> 
 
     <lotestranferencia lotetras="<?php echo trim($tran->LotSalInc); ?>" ></lotestranferencia>
 
     </td>
-    <td><small><?php echo  $tran->LoteEntGran; ?> </small> 
+    <td><small><?php echo  $tran->LoteEntGran; 
+     echo"<br>";
+     if(substr($tran->LoteEntGran,0,3)==000){
+       echo"  <span class='badge bg-success'>Correcto</span>";
+     }else{
+       echo"  <span class='badge bg-danger'>error</span>";
+     }
+    ?> </small> 
      <lotestranferencia_entrada lotetras="<?php echo trim($tran->LoteEntGran); ?>" ></lotestranferencia_entrada>
     </td>
-    <td><small><?php echo  $tran->LotAjxMermaEnt; ?> </small> 
+    <td><small><?php echo  $tran->LotAjxMermaEnt; 
+     echo"<br>";
+     if(substr($tran->LotAjxMermaEnt,0,3)==000){
+       echo"  <span class='badge bg-success'>Correcto</span>";
+     }else{
+       echo"  <span class='badge bg-danger'>error</span>";
+     }?> </small> 
   
     <lotestranferencia_merma lotetras="<?php echo trim($tran->LotAjxMermaEnt); ?>" ></lotestranferencia_merma>
    </td>
 
-    <td><small><?php echo  $tran->LoteSalpvIni; ?> </small> 
+    <td><small><?php echo  $tran->LoteSalpvIni; 
+      echo"<br>";
+      if(substr($tran->LoteSalpvIni,0,3)==000){
+        echo"  <span class='badge bg-success'>Correcto</span>";
+      }else{
+        echo"  <span class='badge bg-danger'>error</span>";
+      }
+    ?> </small> 
     <lotestranferencia lotetras="<?php echo trim($tran->LoteSalpvIni); ?>" ></lotestranferencia>
    </td>
     <td><small>
