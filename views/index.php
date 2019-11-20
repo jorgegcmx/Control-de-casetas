@@ -98,8 +98,7 @@ include_once '../Proyectos/Classe.php';
                                                        <th><small>CodRazon</small></th>
                                                        <th><small>AlmacenCas</small></th>                                                                         
                                                        <th><small>AlmacenGAS</small></th>
-                                                       <th><small>Proyecto</small></th> 
-                                                                       
+                                                       <th><small>Proyecto</small></th>                                                                        
                                                      </tr>
                                                      <tr style="background-color:lightblue">
                                                        <td>
@@ -131,7 +130,24 @@ include_once '../Proyectos/Classe.php';
                                                        </td>                                                       
                                                        <td>
                                                            <small> 
-                                                            <?php echo $c->AlmacenGAS; ?>                              
+                                                            <?php echo $c->AlmacenGAS; ?>
+                                                            <br>
+                                                            <?php
+                                                             $cuenta = new Classe();
+                                                             $cue = $cuenta->get_cuentas_entidad($c->AlmacenGAS);
+                                                             while($cu = $cue->fetchObject()){
+                                                            
+                                                              echo $cu->InvtID; echo"  cantidad: ";
+                                                              echo $cu->QtyAvail; echo"<br>";
+                                                              echo $cu->InvtSub; echo"<br>";
+                                                             
+                                                              if((substr($cu->InvtSub,10,2)==substr($c->Proyecto,10,2))){
+                                                                echo"  <span class='badge bg-success'>Correcto</span><br>";
+                                                              }else{
+                                                                echo"  <span class='badge bg-danger'>Error</span><br>";
+                                                              }
+
+                                                           } ?>                              
                                                            </small>
                                                        </td>
                                                        <td>
@@ -142,30 +158,34 @@ include_once '../Proyectos/Classe.php';
                                                             <?php  $resultado = substr($c->Proyecto,10,2);
 
 
-                                                            if((trim($fila->Granja)=="CNDL") && (trim($modu)==05)){                                                         
+                                                            if((trim($fila->Granja)=="CNDL") && (trim($modu)==05)){     
+                                                              echo"  <span class='badge bg-warning'>Caso Espial</span>";                                                    
                                                                   $modu =01;                                                
                                                                   if(trim($modu)==trim($resultado)){
                                                                    echo"  <span class='badge bg-success'>Correcto</span>";
+                                                                   
                                                                     }else{
                                                                    echo"  <span class='badge bg-danger'>Error</span>";
                                                                     }   
                                                                                                                  
                                                              }elseif((trim($fila->Granja)=="CNDL") && (trim($modu)==04)){
-                                                
+                                                              echo"  <span class='badge bg-warning'>Caso Espial</span>";
                                                                    $modu =02;
                                                 
                                                                    if(trim($modu)==trim($resultado)){
                                                                       echo"  <span class='badge bg-success'>Correcto</span>";
+                                                                     
                                                                    }else{
                                                                       echo"  <span class='badge bg-danger'>Error</span>";
                                                                    }
                                                 
                                                              }elseif((trim($fila->Granja)=="ELEN") && (trim($modu)==02)){
-                                                
+                                                              echo"  <span class='badge bg-warning'>Caso Espial</span>";
                                                                     $modu=01;
                                                 
                                                                     if(trim($modu)==trim($resultado)){
                                                                      echo"  <span class='badge bg-success'>Correcto</span>";
+                                                                     
                                                                     }else{
                                                                      echo"  <span class='badge bg-danger'>Error</span>";
                                                                     }
@@ -181,7 +201,23 @@ include_once '../Proyectos/Classe.php';
                                                           }
 
                                                             ?>
-                                                                                       
+                                                            <br>
+                                                            <?php
+                                                             $cuentas = new Classe();
+                                                             $cuen = $cuentas->get_cuentas_entidad($c->AlmacenCas);
+                                                             while($cue = $cuen->fetchObject()){
+                                                            
+                                                              echo $cue->InvtID; echo"  cantidad: ";
+                                                              echo $cue->QtyAvail; echo"<br>";
+                                                              echo $cue->InvtSub; echo"<br>";
+                                                             
+                                                              if((substr($cue->InvtSub,8,4)==substr($c->Proyecto,10,4))){
+                                                                echo"  <span class='badge bg-success'>Correcto</span><br>";
+                                                              }else{
+                                                                echo"  <span class='badge bg-danger'>Error</span><br>";
+                                                              }
+
+                                                           } ?>                           
                                                            </small>
                                                        </td>
                                                       </tr>

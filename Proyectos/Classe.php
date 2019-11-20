@@ -221,31 +221,6 @@ public function get_Cartones_detalle($caseta,$annio,$ciclo)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     
     public function add_gru(){
         try{
@@ -291,4 +266,46 @@ public function get_Cartones_detalle($caseta,$annio,$ciclo)
       }
   }
   
+  public function get_cuentas_entidad($caseta)
+  {
+      try
+      {
+      $sql = "select InvtID,QtyAvail,InvtSub from ItemSite where SiteID=? AND InvtID in(
+        'PLO0001',                       
+        'PLO0002',                       
+        'PLO0003',
+        'PPT6001',                       
+        'PPT6002',                       
+        'PPT6003',                       
+        'PPT6004',                       
+        'PPT6005',                       
+        'PPT6006',                       
+        'PPT6007',                       
+        'PPT6008',                       
+        'PPT6009',                       
+        'PPT6101',                       
+        'PPT6102',                       
+        'PPT6104',                       
+        'PPT6105',                       
+        'PPT6107',                       
+        'PPT6109',                       
+        'PPT6108',                       
+        'PPT6009') and QtyAvail<>0 ";     
+
+      $consulta = $this->con->prepare($sql);      
+      $consulta->bindParam(1,$caseta); 
+          
+      $consulta->execute();
+      $this->con = null;        
+      if($consulta->rowCount() > 0){
+          return $consulta;   
+      }else{
+          return $consulta;
+      }//fin else
+      }catch(PDOExeption $e){
+          print "Error:" . $e->getmessage();
+      }
+}
+  
+
 }//cierra clase
