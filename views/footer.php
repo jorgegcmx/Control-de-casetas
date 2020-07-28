@@ -60,7 +60,7 @@
                 },
                 methods: {
                     getCasetas: function () {
-                        axios.get(`http://localhost:8000/CostoPollo/${this.id}`).then(response => {
+                        axios.get(`http://localhost:8000/DatosPollo/CostoPollo/${this.id}`).then(response => {
                             this.casetas = response.data;  
                             //console.log(this.casetas);                         
                         }).catch(function (error) {
@@ -68,7 +68,7 @@
                         });
                     },
                     cleard: function () {
-                        axios.get(`http://localhost:8000/CostoPollo/0`).then(response => {
+                        axios.get(`http://localhost:8000/DatosPollo/CostoPollo/0`).then(response => {
                             this.casetas = response.data;                           
                         }).catch(function (error) {
                             console.log(error);
@@ -126,14 +126,14 @@
                 },
                 methods: {
                     getCartones: function () {
-                        axios.get("http://localhost:8000/DetalleCarton/"+ this.idcaseta+"/"+ this.annio +"/"+this.ciclo+"").then(response => {
+                        axios.get("http://localhost:8000/DatosPollo/DetalleCarton/"+ this.idcaseta+"/"+ this.annio +"/"+this.ciclo+"").then(response => {
                             this.cartones = response.data;                                                    
                         }).catch(function (error) {
                             console.log(error);
                         });
                     },
                     cleardCartones: function () {
-                        axios.get(`http://localhost:8000/DetalleCarton/0/0/0`).then(response => {
+                        axios.get(`http://localhost:8000/DatosPollo/DetalleCarton/0/0/0`).then(response => {
                           this.cartones = response.data;                           
                         }).catch(function (error) {
                             console.log(error);
@@ -188,14 +188,14 @@
                 },
                 methods: {
                     getloteSalida: function () {
-                        axios.get("http://localhost:8000/DetalleSalida/"+ this.lote).then(response => {
+                        axios.get("http://localhost:8000/DatosPollo/DetalleSalida/"+ this.lote).then(response => {
                             this.lotes = response.data;                                          
                         }).catch(function (error) {
                             console.log(error);
                         });
                     },
                     cleardloteSalida: function () {
-                        axios.get(`http://localhost:8000/DetalleSalida/0/`).then(response => {
+                        axios.get(`http://localhost:8000/DatosPollo/DetalleSalida/0/`).then(response => {
                           this.lotes = response.data;                           
                         }).catch(function (error) {
                             console.log(error);
@@ -235,7 +235,7 @@
                 },
                 methods: {
                     getlotetrans: function () {
-                        axios.get("http://localhost:8000/transferencia/"+ this.lotetras+"/II").then(response => {
+                        axios.get("http://localhost:8000/DatosPollo/transferencia/"+ this.lotetras+"/II").then(response => {
                             this.lotetrasarr = response.data;    
                             console.log(this.lotetrasarr)                                      
                         }).catch(function (error) {
@@ -243,7 +243,7 @@
                         });
                     },
                     cleardlotetrans: function () {
-                        axios.get(`http://localhost:8000/transferencia/0/0`).then(response => {
+                        axios.get(`http://localhost:8000/DatosPollo/transferencia/0/0`).then(response => {
                           this.lotetrasarr = response.data;                           
                         }).catch(function (error) {
                             console.log(error);
@@ -283,7 +283,7 @@
                 },
                 methods: {
                     getlotetrans: function () {
-                        axios.get("http://localhost:8000/transferencia/"+ this.lotetras+"/RI").then(response => {
+                        axios.get("http://localhost:8000/DatosPollo/transferencia/"+ this.lotetras+"/RI").then(response => {
                             this.lotetrasarr = response.data;    
                             console.log(this.lotetrasarr)                                      
                         }).catch(function (error) {
@@ -291,7 +291,7 @@
                         });
                     },
                     cleardlotetrans: function () {
-                        axios.get(`http://localhost:8000/transferencia/0/0`).then(response => {
+                        axios.get(`http://localhost:8000/DatosPollo/transferencia/0/0`).then(response => {
                           this.lotetrasarr = response.data;                           
                         }).catch(function (error) {
                             console.log(error);
@@ -330,7 +330,7 @@
                 },
                 methods: {
                     getlotetrans: function () {
-                        axios.get("http://localhost:8000/transferencia/"+ this.lotetras+"/AJ").then(response => {
+                        axios.get("http://localhost:8000/DatosPollo/transferencia/"+ this.lotetras+"/AJ").then(response => {
                             this.lotetrasarr = response.data;    
                             console.log(this.lotetrasarr)                                      
                         }).catch(function (error) {
@@ -338,7 +338,7 @@
                         });
                     },
                     cleardlotetrans: function () {
-                        axios.get(`http://localhost:8000/transferencia/0/0`).then(response => {
+                        axios.get(`http://localhost:8000/DatosPollo/transferencia/0/0`).then(response => {
                           this.lotetrasarr = response.data;                           
                         }).catch(function (error) {
                             console.log(error);
