@@ -9,7 +9,7 @@ private function __construct()
     try
     {
     
-    $this->con = new PDO("sqlsrv:Server=192.1.1.218;Database=AGQSLAPP",'master','');
+    $this->con = new PDO("sqlsrv:Server=;Database=",'','');
         
     $this->con->exec("SET CHARSET SET UTF-8");    
     }
